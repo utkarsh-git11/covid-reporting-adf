@@ -1,0 +1,9 @@
+{
+	"name": "utk-covid-reporting-adf",
+	"location": "westus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fa2c12c5-be49-42c8-be43-cd8b973593db",
+		"tenantId": "a0b6a447-2d01-4c5d-bab2-29cafae4c989"
+	}
+}
