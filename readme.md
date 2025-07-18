@@ -12,15 +12,9 @@ This project implements an end-to-end data engineering pipeline on Azure to inge
 
 🛠️ **Architecture Overview**
 
-External Sources (ECDC, Eurostat)
-        ↓
-Azure Data Factory (Pipelines, Data Flows, Triggers)
-        ↓
-Azure Data Lake Storage (Raw → Processed Zones)
-        ↓
-Azure SQL Database (Data Warehouse)
-        ↓
-Power BI (Dashboard)
+External Sources (ECDC, Eurostat)  ->   Azure Data Factory (Pipelines, Data Flows, Triggers)  ->
+  Azure Data Lake Storage (Raw → Processed Zones)  ->  Azure SQL Database (Data Warehouse)  
+  ->  Power BI (Dashboard)
 
 
 
