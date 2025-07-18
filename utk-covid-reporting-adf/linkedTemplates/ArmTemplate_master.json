@@ -1,0 +1,132 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "utk-covid-reporting-adf"
+		},
+		"Is_ablob_covidreportingsa_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Is_ablob_covidreportingsa'"
+		},
+		"Is_adls_covidreportingdl_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Is_adls_covidreportingdl'"
+		},
+		"ls_Db_covid_cluster_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_Db_covid_cluster'"
+		},
+		"ls_sql_covid_db_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_sql_covid_db'"
+		},
+		"Is_adls_covidreportingdl_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://covidreportingdatalake13.dfs.core.windows.net/"
+		},
+		"Is_http_opendata_ecdc_europa_eu_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().sourceBaseURL}"
+		},
+		"ls_sql_covid_db_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "covid-srv-utk.database.windows.net"
+		},
+		"ls_sql_covid_db_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "covid-db-utk"
+		},
+		"ls_sql_covid_db_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "admin@123@covid-srv-utk.database.windows.net"
+		},
+		"tr_population_data_arrived_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/430c4b3d-dda8-4179-be56-6d83e54da453/resourceGroups/rg_utk_covid_reporting/providers/Microsoft.Storage/storageAccounts/covidreportingsautk"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "utk-covid-reporting-adf_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Is_ablob_covidreportingsa_connectionString": {
+						"value": "[parameters('Is_ablob_covidreportingsa_connectionString')]"
+					},
+					"Is_adls_covidreportingdl_accountKey": {
+						"value": "[parameters('Is_adls_covidreportingdl_accountKey')]"
+					},
+					"ls_Db_covid_cluster_accessToken": {
+						"value": "[parameters('ls_Db_covid_cluster_accessToken')]"
+					},
+					"ls_sql_covid_db_password": {
+						"value": "[parameters('ls_sql_covid_db_password')]"
+					},
+					"Is_adls_covidreportingdl_properties_typeProperties_url": {
+						"value": "[parameters('Is_adls_covidreportingdl_properties_typeProperties_url')]"
+					},
+					"Is_http_opendata_ecdc_europa_eu_properties_typeProperties_url": {
+						"value": "[parameters('Is_http_opendata_ecdc_europa_eu_properties_typeProperties_url')]"
+					},
+					"ls_sql_covid_db_properties_typeProperties_server": {
+						"value": "[parameters('ls_sql_covid_db_properties_typeProperties_server')]"
+					},
+					"ls_sql_covid_db_properties_typeProperties_database": {
+						"value": "[parameters('ls_sql_covid_db_properties_typeProperties_database')]"
+					},
+					"ls_sql_covid_db_properties_typeProperties_userName": {
+						"value": "[parameters('ls_sql_covid_db_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "utk-covid-reporting-adf_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"tr_population_data_arrived_properties_typeProperties_scope": {
+						"value": "[parameters('tr_population_data_arrived_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'utk-covid-reporting-adf_ArmTemplate_0')]"
+			]
+		}
+	]
+}
